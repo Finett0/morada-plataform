@@ -3,6 +3,7 @@ import { Inter, Instrument_Serif, JetBrains_Mono } from 'next/font/google';
 import { Providers } from './providers';
 import { config } from '@/lib/config';
 import '@/styles/globals.css';
+import '@/styles/ui.css';
 
 const sans = Inter({
   subsets: ['latin'],

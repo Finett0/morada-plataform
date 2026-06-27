@@ -1,0 +1,438 @@
+/* Design system components (issue 01). Tokens em globals.css. */
+
+/* Buttons */
+.mu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 11px 18px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    opacity 0.15s;
+  text-decoration: none;
+}
+.mu-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.mu-btn--primary {
+  background: var(--moss);
+  color: #fff;
+}
+.mu-btn--primary:hover:not(:disabled) {
+  background: #275b43;
+}
+.mu-btn--accent {
+  background: var(--coral);
+  color: #fff;
+}
+.mu-btn--accent:hover:not(:disabled) {
+  background: #d8633b;
+}
+.mu-btn--secondary {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+.mu-btn--secondary:hover:not(:disabled) {
+  background: var(--cream);
+}
+.mu-btn--danger {
+  background: transparent;
+  color: var(--danger);
+  border-color: var(--coral);
+}
+.mu-btn--danger:hover:not(:disabled) {
+  background: rgba(233, 116, 75, 0.08);
+}
+.mu-btn--ghost {
+  background: transparent;
+  color: var(--muted);
+}
+.mu-btn--block {
+  width: 100%;
+}
+
+/* Field / inputs */
+.mu-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.mu-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.mu-input,
+.mu-select,
+.mu-textarea {
+  font-family: var(--sans);
+  font-size: 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-chip);
+  background: var(--surface);
+  color: var(--ink);
+  width: 100%;
+}
+.mu-input:focus,
+.mu-select:focus,
+.mu-textarea:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+.mu-field--error .mu-input,
+.mu-field--error .mu-select,
+.mu-field--error .mu-textarea {
+  border-color: var(--danger);
+}
+.mu-error {
+  font-size: 12px;
+  color: var(--danger);
+}
+.mu-hint {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Card */
+.mu-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 20px;
+}
+.mu-card--pad-lg {
+  padding: 28px;
+}
+
+/* Badge */
+.mu-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+.mu-badge--neutral {
+  background: var(--cream);
+  color: var(--muted);
+}
+.mu-badge--info {
+  background: #e6eef5;
+  color: #2b5878;
+}
+.mu-badge--success {
+  background: var(--soft-green);
+  color: var(--pine);
+}
+.mu-badge--warning {
+  background: #f7ecd0;
+  color: #8a6516;
+}
+.mu-badge--danger {
+  background: #f9ddd2;
+  color: #a23f1c;
+}
+
+/* Table */
+.mu-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.mu-table th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.mu-table td {
+  padding: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.mu-table tbody tr:hover {
+  background: var(--porcelain);
+}
+.mu-table .num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Modal */
+.mu-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 42, 31, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 50;
+}
+.mu-modal {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-pop);
+  padding: 24px;
+  width: 100%;
+  max-width: 440px;
+}
+.mu-modal__title {
+  font-family: var(--serif);
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+.mu-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+/* Toast */
+.mu-toast-wrap {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 60;
+}
+.mu-toast {
+  background: var(--ink);
+  color: var(--porcelain);
+  padding: 12px 16px;
+  border-radius: var(--radius-chip);
+  font-size: 14px;
+  box-shadow: var(--shadow-card);
+  max-width: 360px;
+}
+.mu-toast--success {
+  background: var(--moss);
+}
+.mu-toast--error {
+  background: #a23f1c;
+}
+
+/* Empty state */
+.mu-empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--muted);
+}
+.mu-empty__title {
+  font-family: var(--serif);
+  font-size: 20px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+/* Spinner */
+.mu-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--line);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: mu-spin 0.7s linear infinite;
+  display: inline-block;
+}
+@keyframes mu-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pagination */
+.mu-pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+/* Breadcrumb */
+.mu-breadcrumb {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+/* KPI card */
+.mu-kpi {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 20px;
+}
+.mu-kpi__label {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.mu-kpi__value {
+  font-family: var(--serif);
+  font-size: 38px;
+  line-height: 1.1;
+  margin-top: 8px;
+}
+.mu-kpi__hint {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* Stepper */
+.mu-stepper {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.mu-step {
+  flex: 1;
+  padding: 12px;
+  border-radius: var(--radius-chip);
+  border: 1px solid var(--line);
+  font-size: 13px;
+}
+.mu-step--active {
+  border-color: var(--moss);
+  background: var(--soft-green);
+  color: var(--pine);
+}
+.mu-step--done {
+  color: var(--muted);
+}
+
+/* Timeline */
+.mu-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.mu-timeline__item {
+  display: flex;
+  gap: 12px;
+  padding-bottom: 18px;
+  position: relative;
+}
+.mu-timeline__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+  border: 2px solid var(--line);
+  background: var(--surface);
+}
+.mu-timeline__dot--done {
+  background: var(--moss);
+  border-color: var(--moss);
+}
+.mu-timeline__dot--current {
+  border-color: var(--coral);
+  background: var(--coral);
+}
+.mu-timeline__dot--blocked {
+  border-color: var(--gold);
+  background: var(--gold);
+}
+
+/* Tooltip */
+.mu-tooltip {
+  position: relative;
+  display: inline-flex;
+  cursor: help;
+  border-bottom: 1px dotted var(--muted);
+}
+.mu-tooltip__bubble {
+  visibility: hidden;
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: var(--porcelain);
+  font-size: 12px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  width: max-content;
+  max-width: 240px;
+  z-index: 40;
+}
+.mu-tooltip:hover .mu-tooltip__bubble {
+  visibility: visible;
+}
+
+/* Layout helpers */
+.mu-grid {
+  display: grid;
+  gap: 16px;
+}
+.mu-grid--kpi {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+.mu-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mu-row--between {
+  justify-content: space-between;
+}
+.mu-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.mu-page-title {
+  font-family: var(--serif);
+  font-size: 32px;
+  margin: 4px 0 16px;
+}
+.mu-muted {
+  color: var(--muted);
+}
+.mu-banner {
+  border-radius: var(--radius-chip);
+  padding: 12px 16px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mu-banner--zero {
+  background: var(--soft-green);
+  color: var(--pine);
+}
+.mu-banner--warn {
+  background: #f7ecd0;
+  color: #8a6516;
+}
