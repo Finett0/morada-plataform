@@ -7,8 +7,6 @@ import { useLogin } from '@/hooks/useAuth';
 import { loginSchema } from '@/lib/validation';
 import { fieldErrors, errorMessage } from '@/lib/form';
 
-const DEMO_ADMIN = 'ana@acme.com';
-
 export default function LoginPage() {
   const login = useLogin();
   const [email, setEmail] = useState('');
@@ -61,17 +59,6 @@ export default function LoginPage() {
       <div className="mu-row mu-row--between" style={{ marginTop: 16, fontSize: 14 }}>
         <Link href="/recuperar-senha">Esqueci minha senha</Link>
         <Link href="/signup">Criar conta da empresa</Link>
-      </div>
-
-      <div style={{ marginTop: 24, borderTop: '1px solid var(--line)', paddingTop: 16 }}>
-        <p className="eyebrow">Demo</p>
-        <Button
-          variant="secondary"
-          block
-          onClick={() => login.mutate({ email: DEMO_ADMIN, password: 'demo1234' })}
-        >
-          Entrar como Admin
-        </Button>
       </div>
     </div>
   );
