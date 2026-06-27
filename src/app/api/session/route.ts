@@ -3,6 +3,8 @@ import { db } from '@/server/db';
 import { ROLE_PERMISSIONS } from '@/lib/rbac';
 import { ok, handleError } from '@/server/http';
 
+export const dynamic = 'force-dynamic';
+
 /** GET /api/session — usuário autenticado, permissões e status do benefício. */
 export async function GET() {
   try {

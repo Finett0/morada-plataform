@@ -3,6 +3,8 @@ import { assertCan } from '@/lib/rbac';
 import { getDashboard } from '@/server/dashboard';
 import { ok, handleError } from '@/server/http';
 
+export const dynamic = 'force-dynamic';
+
 /** GET /api/dashboard — resumo da carteira de benefícios da empresa. */
 export async function GET() {
   try {
