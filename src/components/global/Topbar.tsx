@@ -1,9 +1,17 @@
+'use client';
+
+import { useSession } from '@/hooks/useSession';
+import { useLogout } from '@/hooks/useAuth';
+import { Button } from '@/components/ui';
+import { NotificationBell } from './NotificationBell';
+
 /**
  * Topbar (SPEC §3.1): nome da empresa, sino de notificações e menu de conta.
- * Placeholder estrutural do scaffold — notificações (issue 22) e menu de conta
- * com dados reais entram nas issues seguintes.
  */
 export function Topbar() {
+  const { data } = useSession();
+  const logout = useLogout();
+
   return (
     <header
       style={{
@@ -16,22 +24,15 @@ export function Topbar() {
         padding: '0 24px',
       }}
     >
-      <span style={{ fontWeight: 600 }}>Sua Empresa</span>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16, color: 'var(--muted)' }}>
-        <span aria-label="Notificações" title="Notificações">
-          🔔
+      <span style={{ fontWeight: 600 }}>{data?.empresa?.razaoSocial ?? 'Morada'}</span>
+      <div className="mu-row" style={{ gap: 16 }}>
+        <NotificationBell />
+        <span className="mu-muted" style={{ fontSize: 14 }}>
+          {data?.user?.nome}
         </span>
-        <span
-          aria-label="Conta"
-          title="Conta"
-          style={{
-            width: 32,
-            height: 32,
-            borderRadius: '50%',
-            background: 'var(--soft-green)',
-            display: 'inline-block',
-          }}
-        />
+        <Button variant="ghost" onClick={() => logout.mutate()} disabled={logout.isPending}>
+          Sair
+        </Button>
       </div>
     </header>
   );

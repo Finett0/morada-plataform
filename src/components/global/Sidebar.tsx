@@ -2,25 +2,28 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { usePermissions } from '@/hooks/useSession';
+import type { Permission } from '@/lib/rbac';
 
 /**
- * Sidebar de navegação (SPEC §3.1).
- * Placeholder estrutural do scaffold — itens, badges de pendência e RBAC
- * (esconder por papel) entram na issue 01 (design system) e 02 (RBAC).
+ * Sidebar de navegação (SPEC §3.1). Itens são filtrados pela permissão do
+ * papel atual (RBAC — issue 02).
  */
-const NAV = [
-  { href: '/', label: 'Dashboard' },
-  { href: '/colaboradores', label: 'Colaboradores' },
-  { href: '/contratos', label: 'Contratos' },
-  { href: '/faturas', label: 'Faturas' },
-  { href: '/relatorios', label: 'Relatórios' },
-  { href: '/documentos', label: 'Documentos' },
-  { href: '/configuracoes', label: 'Configurações' },
+const NAV: { href: string; label: string; perm?: Permission }[] = [
+  { href: '/', label: 'Dashboard', perm: 'dashboard:ver' },
+  { href: '/colaboradores', label: 'Colaboradores', perm: 'colaborador:ver' },
+  { href: '/contratos', label: 'Contratos', perm: 'contrato:ver' },
+  { href: '/faturas', label: 'Faturas', perm: 'fatura:ver' },
+  { href: '/relatorios', label: 'Relatórios', perm: 'relatorio:ver' },
+  { href: '/documentos', label: 'Documentos', perm: 'documento:ver' },
+  { href: '/configuracoes', label: 'Configurações', perm: 'config:editar' },
   { href: '/ajuda', label: 'Ajuda' },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { can } = usePermissions();
+  const items = NAV.filter((item) => !item.perm || can(item.perm));
 
   return (
     <aside
@@ -36,7 +39,7 @@ export function Sidebar() {
     >
       <div style={{ fontFamily: 'var(--serif)', fontSize: 24, padding: '0 8px 16px' }}>Morada</div>
       <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        {NAV.map((item) => {
+        {items.map((item) => {
           const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
           return (
             <Link
