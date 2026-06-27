@@ -65,7 +65,7 @@ A cópia é uma questão **jurídica**, não só de tom (README §4 e §6). A in
 ```
 
 **Mapeamento semântico no painel:**
-- **Primário (ações, links, foco):** `--moss`. Botão primário pode usar `--coral` em CTAs de alta prioridade — com parcimônia (1 por tela).
+- **Primário (links, foco, ações utilitárias):** `--moss`. **CTAs principais** (o convite à ação de cada tela: Entrar, Criar conta, Cadastrar colaborador, Pagar fatura, Ativar benefício) usam **`--coral`**, alinhado à landing — idealmente 1 por tela. Botões secundários/utilitários (Salvar, filtros, Exportar) ficam em moss/secundário.
 - **Superfícies:** fundo `--porcelain`; cards `#FFF` ou `--cream`; seções de destaque/header escuro `--pine`.
 - **Texto:** `--ink` (principal), `--muted` (secundário); sobre escuro, `--porcelain`/`--cream`.
 - **Status** (ver §4): sucesso `--moss`/`#5BD06B`, alerta `--gold`, erro `--coral`, info/neutro `--cream-muted`.

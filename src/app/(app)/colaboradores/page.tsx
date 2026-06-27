@@ -56,7 +56,7 @@ export default function ColaboradoresPage() {
         </div>
         {can('colaborador:criar') ? (
           <Link href="/colaboradores/novo">
-            <Button>Cadastrar colaborador</Button>
+            <Button variant="accent">Cadastrar colaborador</Button>
           </Link>
         ) : null}
       </div>
@@ -89,7 +89,7 @@ export default function ColaboradoresPage() {
             action={
               can('colaborador:criar') ? (
                 <Link href="/colaboradores/novo">
-                  <Button>Cadastrar colaborador</Button>
+                  <Button variant="accent">Cadastrar colaborador</Button>
                 </Link>
               ) : undefined
             }

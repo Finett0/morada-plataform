@@ -72,7 +72,7 @@ export default function DashboardPage() {
       <div className="mu-row" style={{ gap: 12 }}>
         {can('colaborador:criar') ? (
           <Link href="/colaboradores/novo">
-            <Button>Cadastrar colaborador</Button>
+            <Button variant="accent">Cadastrar colaborador</Button>
           </Link>
         ) : null}
         <Link href="/faturas">

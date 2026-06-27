@@ -51,7 +51,7 @@ export default function LoginPage() {
             autoComplete="current-password"
           />
         </Field>
-        <Button type="submit" block disabled={login.isPending}>
+        <Button type="submit" variant="accent" block disabled={login.isPending}>
           {login.isPending ? 'Entrando…' : 'Entrar'}
         </Button>
       </form>

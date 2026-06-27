@@ -66,7 +66,7 @@ export default function NovoColaboradorPage() {
           <Field label="Observações (opcional)" htmlFor="obs">
             <Textarea id="obs" rows={3} value={form.observacoes} onChange={set('observacoes')} />
           </Field>
-          <Button type="submit" disabled={criar.isPending}>
+          <Button type="submit" variant="accent" disabled={criar.isPending}>
             {criar.isPending ? 'Enviando…' : modo === 'convite' ? 'Enviar convite' : 'Cadastrar'}
           </Button>
         </form>

@@ -59,7 +59,7 @@ export default function SignupPage() {
             Aceito os termos de uso e a política de privacidade.
           </label>
         </Field>
-        <Button type="submit" block disabled={signup.isPending}>
+        <Button type="submit" variant="accent" block disabled={signup.isPending}>
           {signup.isPending ? 'Criando…' : 'Criar conta'}
         </Button>
       </form>
