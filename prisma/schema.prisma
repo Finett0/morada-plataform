@@ -1,7 +1,8 @@
-// Schema Prisma — base do scaffold (issue 00).
-// As entidades do domínio (Empresa, Usuario, ColaboradorPJ, Contrato, Fatura,
-// EventoAuditoria, etc.) são modeladas a partir da issue 02, seguindo
-// skills/model-writer e references/architecture.md §5.
+// Schema Prisma — definição canônica do banco (issue 02).
+// O runtime atual usa um store em memória com seed (src/server/db.ts) para o
+// scaffold rodar sem um Postgres provisionado; este schema é a estrutura-alvo
+// para a migração de produção. Segue architecture.md §5 e skills/model-writer.
+// Valores monetários em centavos (Int).
 
 generator client {
   provider = "prisma-client-js"
@@ -10,4 +11,167 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum Papel {
+  admin
+  financeiro
+  rh
+  visualizador
+}
+
+enum UsuarioStatus {
+  ativo
+  pendente
+}
+
+enum ColaboradorStatus {
+  em_originacao
+  ativo
+  em_desligamento
+  desligado
+}
+
+enum ContratoStatus {
+  em_originacao
+  ativo
+  encerrado
+}
+
+enum EscopoGarantia {
+  inadimplencia
+  inadimplencia_danos
+}
+
+enum FaturaStatus {
+  aberta
+  paga
+  atrasada
+}
+
+enum DocumentoStatus {
+  assinado
+  pendente
+}
+
+model Empresa {
+  id               String           @id @default(cuid())
+  razaoSocial      String
+  cnpj             String           @unique
+  endereco         String?
+  beneficioAtivo   Boolean          @default(false)
+  convenioAssinado Boolean          @default(false)
+  createdAt        DateTime         @default(now())
+  usuarios         Usuario[]
+  colaboradores    ColaboradorPJ[]
+  contratos        Contrato[]
+  faturas          Fatura[]
+  documentos       Documento[]
+  eventos          EventoAuditoria[]
+  notificacoes     Notificacao[]
+}
+
+model Usuario {
+  id        String        @id @default(cuid())
+  empresa   Empresa       @relation(fields: [empresaId], references: [id])
+  empresaId String
+  nome      String
+  email     String        @unique
+  papel     Papel
+  status    UsuarioStatus @default(pendente)
+  createdAt DateTime      @default(now())
+
+  @@index([empresaId])
+}
+
+model ColaboradorPJ {
+  id             String            @id @default(cuid())
+  empresa        Empresa           @relation(fields: [empresaId], references: [id])
+  empresaId      String
+  nome           String
+  cnpj           String
+  email          String
+  valorNotaCents Int
+  status         ColaboradorStatus @default(em_originacao)
+  thinFile       Boolean           @default(false)
+  contrato       Contrato?
+  etapas         Json
+  createdAt      DateTime          @default(now())
+
+  @@index([empresaId])
+  @@index([status])
+}
+
+model Contrato {
+  id             String         @id @default(cuid())
+  empresa        Empresa        @relation(fields: [empresaId], references: [id])
+  empresaId      String
+  colaborador    ColaboradorPJ  @relation(fields: [colaboradorId], references: [id])
+  colaboradorId  String         @unique
+  imovel         String
+  proprietario   String
+  imobiliaria    String
+  aluguelCents   Int
+  liquidoCents   Int
+  taxaCents      Int
+  fundoCents     Int
+  escopo         EscopoGarantia @default(inadimplencia)
+  status         ContratoStatus @default(em_originacao)
+  vigenciaInicio DateTime
+  vigenciaFim    DateTime?
+  documentos     Json
+  eventos        Json
+
+  @@index([empresaId])
+}
+
+model Fatura {
+  id         String       @id @default(cuid())
+  empresa    Empresa      @relation(fields: [empresaId], references: [id])
+  empresaId  String
+  mesRef     DateTime
+  vencimento DateTime
+  status     FaturaStatus @default(aberta)
+  totalCents Int
+  linhas     Json
+
+  @@index([empresaId])
+  @@index([status])
+}
+
+model Documento {
+  id        String          @id @default(cuid())
+  empresa   Empresa         @relation(fields: [empresaId], references: [id])
+  empresaId String
+  nome      String
+  tipo      String
+  status    DocumentoStatus @default(pendente)
+  data      DateTime        @default(now())
+
+  @@index([empresaId])
+}
+
+model EventoAuditoria {
+  id        String   @id @default(cuid())
+  empresa   Empresa  @relation(fields: [empresaId], references: [id])
+  empresaId String
+  usuario   String
+  papel     Papel
+  acao      String
+  entidade  String
+  contexto  String?
+  timestamp DateTime @default(now())
+
+  @@index([empresaId])
+}
+
+model Notificacao {
+  id        String   @id @default(cuid())
+  empresa   Empresa  @relation(fields: [empresaId], references: [id])
+  empresaId String
+  titulo    String
+  lida      Boolean  @default(false)
+  timestamp DateTime @default(now())
+
+  @@index([empresaId])
 }
