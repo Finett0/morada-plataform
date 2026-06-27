@@ -2,7 +2,18 @@
  * Mapeamento de status do domínio para rótulo + tom de badge (design.md §4).
  */
 import type { BadgeTone } from '@/components/ui/Badge';
-import type { ColaboradorStatus, ContratoStatus, FaturaStatus, UsuarioStatus } from './types';
+import type {
+  ColaboradorStatus,
+  ContratoStatus,
+  EscopoGarantia,
+  FaturaStatus,
+  UsuarioStatus,
+} from './types';
+
+export const escopoLabel: Record<EscopoGarantia, string> = {
+  inadimplencia: 'Apenas inadimplência',
+  inadimplencia_danos: 'Inadimplência + danos',
+};
 
 export const colaboradorStatus: Record<ColaboradorStatus, { label: string; tone: BadgeTone }> = {
   em_originacao: { label: 'Em originação', tone: 'info' },
