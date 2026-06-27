@@ -1,16 +1,25 @@
-import { PagePlaceholder } from '@/components/global/PagePlaceholder';
+import { redirect } from 'next/navigation';
+import { getSession } from '@/server/session';
+import { db } from '@/server/db';
+import { formatCNPJ } from '@/lib/format';
+import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard';
 
 /**
- * Onboarding da empresa (wizard). Fora dos grupos (auth)/(app): a empresa já
- * está autenticada, mas ainda não ativou o benefício. Tela real na issue 07.
+ * Onboarding da empresa (SPEC §2.5). Guarda: sem sessão -> /login;
+ * benefício já ativo -> /. Caso contrário, renderiza o wizard.
  */
 export default function OnboardingPage() {
+  const session = getSession();
+  if (!session) redirect('/login');
+
+  const empresa = db.empresas.find((e) => e.id === session.empresaId);
+  if (!empresa) redirect('/login');
+  if (empresa.beneficioAtivo) redirect('/');
+
   return (
     <div style={{ maxWidth: 720, margin: '0 auto', padding: 48 }}>
-      <PagePlaceholder
-        eyebrow="Ativação"
-        title="Onboarding da empresa"
-        spec="SPEC §2.5 · issue 07"
+      <OnboardingWizard
+        empresa={{ razaoSocial: empresa.razaoSocial, cnpj: formatCNPJ(empresa.cnpj) }}
       />
     </div>
   );
