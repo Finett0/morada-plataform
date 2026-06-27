@@ -8,9 +8,10 @@ import { recordAudit } from './audit';
 import { DomainError, NotFoundError, ValidationError } from './http';
 import type { Empresa, Usuario } from '@/lib/types';
 
-export function findActiveUserByEmail(email: string): Usuario {
-  const user = db.usuarios.find((u) => u.email.toLowerCase() === email.toLowerCase());
-  if (!user || user.status !== 'ativo') {
+export function authenticate(email: string, password: string): Usuario {
+  const key = email.toLowerCase();
+  const user = db.usuarios.find((u) => u.email.toLowerCase() === key);
+  if (!user || user.status !== 'ativo' || db.credenciais[key] !== password) {
     throw new ValidationError('Credenciais inválidas');
   }
   return user;
@@ -21,6 +22,7 @@ export function createCompanyWithAdmin(input: {
   cnpj: string;
   nome: string;
   email: string;
+  password: string;
 }): { empresa: Empresa; admin: Usuario } {
   if (db.empresas.some((e) => e.cnpj === input.cnpj)) {
     throw new DomainError('Já existe uma empresa com este CNPJ');
@@ -48,6 +50,7 @@ export function createCompanyWithAdmin(input: {
   };
   db.empresas.push(empresa);
   db.usuarios.push(admin);
+  db.credenciais[input.email.toLowerCase()] = input.password;
   recordAudit({
     empresaId: empresa.id,
     usuario: admin.nome,
@@ -59,11 +62,12 @@ export function createCompanyWithAdmin(input: {
 }
 
 /** Aceita um convite (token = id do usuário pendente, no scaffold). */
-export function acceptInvite(token: string): Usuario {
+export function acceptInvite(token: string, password: string): Usuario {
   const user = db.usuarios.find((u) => u.id === token);
   if (!user) throw new NotFoundError('Convite');
   if (user.status === 'ativo') throw new DomainError('Convite já utilizado');
   user.status = 'ativo';
+  db.credenciais[user.email.toLowerCase()] = password;
   recordAudit({
     empresaId: user.empresaId,
     usuario: user.nome,

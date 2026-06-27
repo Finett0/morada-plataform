@@ -54,8 +54,16 @@ const empresa: Empresa = {
 };
 
 const usuarios: Usuario[] = [
-  { id: 'usr_1', empresaId: EMPRESA_ID, nome: 'Ana Martins', email: 'ana@acme.com', papel: 'admin', status: 'ativo', createdAt: '2026-01-10T12:00:00.000Z' },
+  { id: 'usr_1', empresaId: EMPRESA_ID, nome: 'Admin', email: 'admin@morada.com', papel: 'admin', status: 'ativo', createdAt: '2026-01-10T12:00:00.000Z' },
 ];
+
+/**
+ * Credenciais (e-mail -> senha). Mock do scaffold: senha em texto puro.
+ * Em produção, vira hash verificado no login (substitui esta camada).
+ */
+const credenciais: Record<string, string> = {
+  'admin@morada.com': '!morada123',
+};
 
 const colaboradores: ColaboradorPJ[] = [
   {
@@ -162,13 +170,14 @@ const notificacoes: Notificacao[] = [
 ];
 
 const eventos: EventoAuditoria[] = [
-  { id: 'evt_1', empresaId: EMPRESA_ID, usuario: 'Ana Martins', papel: 'admin', acao: 'convenio:assinar', entidade: 'Empresa', timestamp: '2026-01-15T12:00:00.000Z' },
-  { id: 'evt_2', empresaId: EMPRESA_ID, usuario: 'Ana Martins', papel: 'admin', acao: 'fatura:pagar', entidade: 'Fatura fat_2', timestamp: '2026-05-10T12:00:00.000Z' },
+  { id: 'evt_1', empresaId: EMPRESA_ID, usuario: 'Admin', papel: 'admin', acao: 'convenio:assinar', entidade: 'Empresa', timestamp: '2026-01-15T12:00:00.000Z' },
+  { id: 'evt_2', empresaId: EMPRESA_ID, usuario: 'Admin', papel: 'admin', acao: 'fatura:pagar', entidade: 'Fatura fat_2', timestamp: '2026-05-10T12:00:00.000Z' },
 ];
 
 export const db = {
   empresas: [empresa],
   usuarios,
+  credenciais,
   colaboradores,
   contratos,
   faturas,

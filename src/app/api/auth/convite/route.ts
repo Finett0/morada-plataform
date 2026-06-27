@@ -9,7 +9,7 @@ export async function POST(req: Request) {
   try {
     const parsed = conviteSchema.safeParse(await req.json());
     if (!parsed.success) throw new ValidationError('Dados inválidos', parsed.error.flatten());
-    const user = acceptInvite(parsed.data.token);
+    const user = acceptInvite(parsed.data.token, parsed.data.password);
     cookies().set(SESSION_COOKIE, user.id, { httpOnly: true, sameSite: 'lax', path: '/' });
     return ok({ user });
   } catch (err) {
