@@ -28,7 +28,7 @@ export default function RelatoriosPage() {
       <div className="mu-grid mu-grid--kpi">
         <KpiCard label="Colaboradores ativos" value={data.colaboradoresAtivos} />
         <KpiCard label="Contratos ativos" value={data.contratosAtivos} />
-        <KpiCard label="Economia gerada (PJ)" value={formatBRL(data.economiaGeradaCents)} hint="vs. seguro fiança" />
+        <KpiCard label="Economia gerada (PJ)" value={formatBRL(data.economiaGeradaCents)} hint="vs. ~12% por conta própria" />
         <KpiCard label="Custo da empresa" value={formatBRL(data.custoEmpresaCents)} hint="Incremental: R$ 0" />
       </div>
 

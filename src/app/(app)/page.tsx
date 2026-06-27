@@ -65,7 +65,7 @@ export default function DashboardPage() {
         <KpiCard
           label="Economia gerada (PJ)"
           value={formatBRL(data.economiaGeradaCents)}
-          hint="vs. seguro fiança"
+          hint="vs. ~12% por conta própria"
         />
       </div>
 

@@ -7,7 +7,7 @@ import { config } from '@/lib/config';
 const FAQ = [
   {
     q: 'Se é de graça, quem paga?',
-    a: 'O desembolso da empresa não muda. A taxa da garantia sai do lado do colaborador PJ (que troca ~12% de seguro fiança por ~2% de taxa). A empresa tem custo incremental R$ 0 e ganha retenção.',
+    a: 'O desembolso da empresa não muda. A taxa da garantia sai do lado do colaborador PJ (que troca ~12% do aluguel/mês, pagos hoje por conta própria, por ~2% de taxa). A empresa tem custo incremental R$ 0 e ganha retenção.',
   },
   {
     q: 'Vira vínculo empregatício?',

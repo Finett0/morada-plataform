@@ -1,6 +1,6 @@
 /**
  * Agregações do dashboard (issue 08), escopadas por empresa.
- * A economia gerada ao PJ estima o que ele pagaria em seguro fiança
+ * A economia gerada ao PJ estima o que ele pagaria por conta própria
  * (~12% do aluguel) menos a taxa da garantia (README §3).
  */
 import { db } from './db';
