@@ -1,0 +1,13 @@
+// Schema Prisma — base do scaffold (issue 00).
+// As entidades do domínio (Empresa, Usuario, ColaboradorPJ, Contrato, Fatura,
+// EventoAuditoria, etc.) são modeladas a partir da issue 02, seguindo
+// skills/model-writer e references/architecture.md §5.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}

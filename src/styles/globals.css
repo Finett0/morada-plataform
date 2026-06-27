@@ -1,0 +1,99 @@
+/*
+ * Design tokens da Morada — fonte: references/design.md §3.
+ * Paleta extraída da landing page oficial.
+ */
+:root {
+  /* Verdes — marca */
+  --pine: #15392b;
+  --pine-deep: #0e2a1f;
+  --moss: #2f6b4f;
+  --cream-muted: #9fb1a4;
+  --soft-green: #cde3d3;
+
+  /* Neutros quentes — base */
+  --porcelain: #f5f1e8;
+  --cream: #ede7d7;
+  --ink: #172019;
+  --muted: #5c6a60;
+  --line: rgba(23, 32, 25, 0.12);
+  --line-d: rgba(237, 231, 215, 0.14);
+
+  /* Accents */
+  --coral: #e9744b;
+  --gold: #e3ae4f;
+
+  /* Semânticos */
+  --primary: var(--moss);
+  --bg: var(--porcelain);
+  --surface: #ffffff;
+  --success: #2f6b4f;
+  --warning: var(--gold);
+  --danger: var(--coral);
+
+  /* Tipografia (famílias injetadas via next/font em layout.tsx) */
+  --serif: var(--font-serif), Georgia, serif;
+  --sans: var(--font-sans), system-ui, sans-serif;
+  --mono: var(--font-mono), ui-monospace, monospace;
+
+  /* Forma */
+  --radius-pill: 100px;
+  --radius-card: 18px;
+  --radius-chip: 10px;
+  --shadow-card: 0 16px 30px -18px rgba(23, 32, 25, 0.4);
+  --shadow-pop: 0 40px 80px -30px rgba(15, 42, 31, 0.6);
+
+  /* Espaçamento base */
+  --space: 8px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.4em;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Rótulo técnico — mono em caixa alta com tracking largo (design.md §3.2) */
+.eyebrow {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
