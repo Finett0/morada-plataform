@@ -55,10 +55,6 @@ const empresa: Empresa = {
 
 const usuarios: Usuario[] = [
   { id: 'usr_1', empresaId: EMPRESA_ID, nome: 'Ana Martins', email: 'ana@acme.com', papel: 'admin', status: 'ativo', createdAt: '2026-01-10T12:00:00.000Z' },
-  { id: 'usr_2', empresaId: EMPRESA_ID, nome: 'Bruno Lima', email: 'bruno@acme.com', papel: 'financeiro', status: 'ativo', createdAt: '2026-01-12T12:00:00.000Z' },
-  { id: 'usr_3', empresaId: EMPRESA_ID, nome: 'Carla Souza', email: 'carla@acme.com', papel: 'rh', status: 'ativo', createdAt: '2026-01-12T12:00:00.000Z' },
-  { id: 'usr_4', empresaId: EMPRESA_ID, nome: 'Davi Rocha', email: 'davi@acme.com', papel: 'visualizador', status: 'ativo', createdAt: '2026-02-01T12:00:00.000Z' },
-  { id: 'usr_5', empresaId: EMPRESA_ID, nome: 'Elena Dias', email: 'elena@acme.com', papel: 'rh', status: 'pendente', createdAt: '2026-06-20T12:00:00.000Z' },
 ];
 
 const colaboradores: ColaboradorPJ[] = [
@@ -167,7 +163,7 @@ const notificacoes: Notificacao[] = [
 
 const eventos: EventoAuditoria[] = [
   { id: 'evt_1', empresaId: EMPRESA_ID, usuario: 'Ana Martins', papel: 'admin', acao: 'convenio:assinar', entidade: 'Empresa', timestamp: '2026-01-15T12:00:00.000Z' },
-  { id: 'evt_2', empresaId: EMPRESA_ID, usuario: 'Bruno Lima', papel: 'financeiro', acao: 'fatura:pagar', entidade: 'Fatura fat_2', timestamp: '2026-05-10T12:00:00.000Z' },
+  { id: 'evt_2', empresaId: EMPRESA_ID, usuario: 'Ana Martins', papel: 'admin', acao: 'fatura:pagar', entidade: 'Fatura fat_2', timestamp: '2026-05-10T12:00:00.000Z' },
 ];
 
 export const db = {

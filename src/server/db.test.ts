@@ -8,13 +8,10 @@ describe('seed do store', () => {
     expect(db.empresas[0].convenioAssinado).toBe(true);
   });
 
-  it('cobre os 4 papéis e um convite pendente', () => {
-    const papeis = db.usuarios.map((u) => u.papel);
-    expect(papeis).toContain('admin');
-    expect(papeis).toContain('financeiro');
-    expect(papeis).toContain('rh');
-    expect(papeis).toContain('visualizador');
-    expect(db.usuarios.some((u) => u.status === 'pendente')).toBe(true);
+  it('tem um único usuário, Admin ativo, por padrão', () => {
+    expect(db.usuarios).toHaveLength(1);
+    expect(db.usuarios[0].papel).toBe('admin');
+    expect(db.usuarios[0].status).toBe('ativo');
   });
 
   it('a originação tem 8 passos', () => {

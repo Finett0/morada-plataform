@@ -7,12 +7,7 @@ import { useLogin } from '@/hooks/useAuth';
 import { loginSchema } from '@/lib/validation';
 import { fieldErrors, errorMessage } from '@/lib/form';
 
-const SEED_USERS = [
-  { email: 'ana@acme.com', papel: 'Admin' },
-  { email: 'bruno@acme.com', papel: 'Financeiro' },
-  { email: 'carla@acme.com', papel: 'RH' },
-  { email: 'davi@acme.com', papel: 'Visualizador' },
-];
+const DEMO_ADMIN = 'ana@acme.com';
 
 export default function LoginPage() {
   const login = useLogin();
@@ -69,18 +64,14 @@ export default function LoginPage() {
       </div>
 
       <div style={{ marginTop: 24, borderTop: '1px solid var(--line)', paddingTop: 16 }}>
-        <p className="eyebrow">Demo — entrar como</p>
-        <div className="mu-row" style={{ flexWrap: 'wrap', gap: 8 }}>
-          {SEED_USERS.map((u) => (
-            <Button
-              key={u.email}
-              variant="secondary"
-              onClick={() => login.mutate({ email: u.email, password: 'demo1234' })}
-            >
-              {u.papel}
-            </Button>
-          ))}
-        </div>
+        <p className="eyebrow">Demo</p>
+        <Button
+          variant="secondary"
+          block
+          onClick={() => login.mutate({ email: DEMO_ADMIN, password: 'demo1234' })}
+        >
+          Entrar como Admin
+        </Button>
       </div>
     </div>
   );
