@@ -20,6 +20,7 @@
 7. [ICP e go-to-market](#7-icp-e-go-to-market)
 8. [Conjunto documental mínimo](#8-conjunto-documental-mínimo)
 9. [Glossário](#9-glossário)
+10. [O repositório e o código](#10-o-repositório-e-o-código)
 
 ---
 
@@ -215,6 +216,82 @@ Como, na maior parte do tempo, a plataforma apenas movimenta dinheiro do própri
 - **Thin file:** PJ com vínculo novo/curto com a empresa → recebível menos provado, risco maior.
 - **Company-backed × PJ-direto:** com convênio da empresa (preserva trava de rescisão) vs cessão direta do PJ (destrava rápido, perde a trava).
 - **Pejotização:** contratação via PJ de quem, na prática, seria empregado — risco de reclassificação trabalhista que ameaça o lastro do modelo.
+
+---
+
+## 10. O repositório e o código
+
+Este repositório guarda **a documentação do produto** e **o código da aplicação** (a *Plataforma da Empresa* — o painel B2B onde a empresa gerencia o benefício). Tudo nasce do documento para o código, nesta ordem: tese → spec → backlog → padrões → implementação.
+
+### Como o repositório está organizado
+
+| Pasta / arquivo | O que é |
+|-----------------|---------|
+| `README.MD` | Este documento-âncora: o **porquê** do produto (tese, modelo, jurídico). |
+| `SPEC.MD` | A especificação funcional do painel: **o que** a aplicação faz (páginas, componentes, comportamentos). |
+| `issues/` | O backlog fatiado em **25 issues (00–24)**, com critérios de aceite. `issues/README.md` indexa. |
+| `skills/` | Guias de **como** escrever cada camada (model/route/action/component/hook/integration/test-writer). |
+| `references/` | Padrões transversais: `architecture.md` (técnico), `design.md` (visual + cópia), `workflow.md` (processo). |
+| `assets/` | Arquivos estáticos do front (logo, imagens). |
+| `src/` | **O código da aplicação** (ver abaixo). |
+| `prisma/` | `schema.prisma` — modelo de dados canônico (alvo de produção). |
+
+### A aplicação (`src/`)
+
+Stack: **Next.js 14 (App Router) + TypeScript**, Prisma/PostgreSQL (alvo), Zod (validação), TanStack Query (dados), Vitest + Testing Library (testes), ESLint + Prettier.
+
+```
+src/
+├── app/                 rotas (App Router) + API
+│   ├── (auth)/          telas públicas: login, signup, recuperar, convite
+│   ├── (app)/           telas autenticadas (app shell): dashboard, colaboradores,
+│   │                    contratos, faturas, relatórios, documentos, configurações, ajuda
+│   ├── onboarding/      wizard de ativação do benefício
+│   └── api/             route handlers (sessão, auth, colaboradores, faturas, …)
+├── components/
+│   ├── ui/              design system (Button, Card, Table, Modal, Toast, Timeline, …)
+│   └── global/          shell: Sidebar, Topbar, NotificationBell
+├── hooks/               data-fetching e mutações (TanStack Query)
+├── lib/                 rbac, types, validação (Zod), format, status, legal-guard, config
+├── server/             regra de negócio (actions), store de dados, sessão, auditoria
+└── styles/             tokens da marca (globals.css) + componentes (ui.css)
+```
+
+As camadas mapeiam **1:1 com as skills** (`skills/`): `model → route → action → component → hook`, com `integration` e `test` ao lado. Regra de dependência: a UI nunca fala com o banco direto; rotas não contêm regra de negócio (delegam às *actions*); *actions* não chamam serviços externos direto (passam por *integrations*).
+
+### Como rodar localmente
+
+```bash
+npm install            # instala dependências
+cp .env.example .env.local   # configura variáveis (opcional no estágio atual)
+npm run dev            # sobe a aplicação em http://localhost:3000
+```
+
+Outros scripts: `npm run build` (produção), `npm test` (Vitest), `npm run lint`, `npm run typecheck`, `npm run format`.
+
+> **Login de demonstração:** a tela `/login` traz botões para entrar como cada papel (Admin, Financeiro, RH, Visualizador) e ver o RBAC na prática.
+
+### Estado atual do código (importante)
+
+Para a aplicação rodar **sem infraestrutura externa**, alguns pontos estão **simulados** — não são bugs, são os próximos passos de produção (marcados no código):
+
+- **Banco de dados:** hoje é um **store em memória com seed** (`src/server/db.ts`). O `prisma/schema.prisma` já é a estrutura-alvo; migrar troca só os acessores, sem mexer em rotas/UI.
+- **Autenticação:** senha é **mock** (a sessão é resolvida por e-mail). Falta hashing/verificação real.
+- **Integrações:** pagamento/split (PSP licenciado), e-mail e assinatura eletrônica estão **simulados** (trabalho do `integration-writer`).
+
+### Invariantes do produto aplicados no código
+
+Estes não são opcionais — atravessam todas as camadas:
+
+- **RBAC** validado na rota **e** na action (defesa em profundidade) e refletido na UI (esconder/desabilitar).
+- **Auditoria** (append-only) em toda ação sensível: assinatura, pagamento, desligamento, gestão de usuários.
+- **Dinheiro em centavos** (inteiro), formatado para BRL só na borda de exibição.
+- **Multi-tenant:** todo dado é escopado por `empresaId`.
+- **Guarda de linguagem jurídica:** um teste de CI **quebra o build** se aparecer "seguro/apólice/segurado/reservas técnicas" no código (ver §4 e §6) — `src/lib/legal-guard.ts`.
+
+### Fluxo de trabalho
+
+Uma issue por vez: branch (`feat/<nº>-<slug>`) → implementar pelas camadas → testes/lint/typecheck verdes → **um commit por issue** (mensagem detalhada em inglês). Detalhes em `references/workflow.md`. CI (`.github/workflows/ci.yml`) roda lint + typecheck + testes (inclui a guarda de linguagem) a cada push/PR.
 
 ---
 
