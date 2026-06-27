@@ -24,12 +24,14 @@ import {
   useAtualizarEmpresa,
 } from '@/hooks/useConfiguracoes';
 import { usePermissions } from '@/hooks/useSession';
+import { useAuditoria } from '@/hooks/useAuditoria';
 import { usuarioStatus } from '@/lib/status';
-import { PAPEL_LABEL, type Papel, type Usuario } from '@/lib/types';
-import { formatCNPJ } from '@/lib/format';
+import { PAPEL_LABEL, type EventoAuditoria, type Papel, type Usuario } from '@/lib/types';
+import { formatCNPJ, formatDate } from '@/lib/format';
 import { errorMessage } from '@/lib/form';
+import { useToast } from '@/components/ui';
 
-const TABS = ['Empresa', 'Usuários', 'Faturamento', 'Segurança'] as const;
+const TABS = ['Empresa', 'Usuários', 'Faturamento', 'Segurança', 'Auditoria'] as const;
 type Tab = (typeof TABS)[number];
 
 export default function ConfiguracoesPage() {
@@ -68,6 +70,7 @@ export default function ConfiguracoesPage() {
       {tab === 'Usuários' && <UsuariosTab />}
       {tab === 'Faturamento' && <FaturamentoTab />}
       {tab === 'Segurança' && <SegurancaTab />}
+      {tab === 'Auditoria' && <AuditoriaTab />}
     </div>
   );
 }
@@ -255,6 +258,37 @@ function FaturamentoTab() {
         <Input type="email" placeholder="financeiro@empresa.com" />
       </Field>
       <Button>Salvar</Button>
+    </Card>
+  );
+}
+
+function AuditoriaTab() {
+  const { data, isLoading, error } = useAuditoria();
+  const toast = useToast();
+
+  const cols: Column<EventoAuditoria>[] = [
+    { key: 'data', header: 'Data', render: (e) => formatDate(e.timestamp) },
+    { key: 'usuario', header: 'Usuário', render: (e) => e.usuario },
+    { key: 'papel', header: 'Papel', render: (e) => PAPEL_LABEL[e.papel] },
+    { key: 'acao', header: 'Ação', render: (e) => <code>{e.acao}</code> },
+    { key: 'entidade', header: 'Entidade', render: (e) => e.entidade },
+  ];
+
+  return (
+    <Card>
+      <div className="mu-row mu-row--between" style={{ marginBottom: 16 }}>
+        <h2 style={{ fontSize: 18, margin: 0 }}>Trilha de auditoria</h2>
+        <Button variant="secondary" onClick={() => toast.success('Auditoria exportada.')}>
+          Exportar
+        </Button>
+      </div>
+      {isLoading ? (
+        <Spinner />
+      ) : error ? (
+        <Banner tone="warn">Não foi possível carregar a auditoria.</Banner>
+      ) : (
+        <Table columns={cols} rows={data?.eventos ?? []} rowKey={(e) => e.id} />
+      )}
     </Card>
   );
 }
