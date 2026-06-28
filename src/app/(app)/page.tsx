@@ -5,7 +5,6 @@ import {
   Banner,
   Button,
   Card,
-  CostZeroBanner,
   EmptyState,
   KpiCard,
   Spinner,
@@ -54,8 +53,6 @@ export default function DashboardPage() {
         <p className="eyebrow">Visão geral</p>
         <h1 className="mu-page-title">Dashboard</h1>
       </div>
-
-      <CostZeroBanner />
 
       <div className="mu-grid mu-grid--kpi">
         <KpiCard label="Colaboradores ativos" value={data.colaboradoresAtivos} />
